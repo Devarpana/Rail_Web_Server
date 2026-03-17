@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 const UserAuth = async (req, res, next) => {
     try {
@@ -34,4 +34,4 @@ const UserAuth = async (req, res, next) => {
     }
 };
 
-module.exports = UserAuth;
+export default UserAuth;

@@ -1,11 +1,11 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const userModel = require('../models/User.js');
-const transporter = require('../config/nodemailer.js');
-const mongoose = require('mongoose');
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import userModel from '../models/User.js';
+import transporter from '../config/nodemailer.js';
+import mongoose from 'mongoose';
 
 // Admin Login
-const adminLogin = async (req, res) => {
+export const adminLogin = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -58,7 +58,7 @@ const adminLogin = async (req, res) => {
 };
 
 // Admin OTP Verification
-const adminVerifyOtp = async (req, res) => {
+export const adminVerifyOtp = async (req, res) => {
     const { email, otp } = req.body;
 
     if (!email || !otp) {
@@ -107,7 +107,7 @@ const adminVerifyOtp = async (req, res) => {
 };
 
 // Fetch Admin Data by ID
-const getAdminById = async (req, res) => {
+export const getAdminById = async (req, res) => {
     const adminId = req.headers.id; // Extract 'id' from headers
 
     if (!adminId) {
@@ -147,7 +147,7 @@ const getAdminById = async (req, res) => {
 };
 
 // Admin sends email to all or specific user
-const adminBroadcastMail = async (req, res) => {
+export const adminBroadcastMail = async (req, res) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -207,11 +207,4 @@ const adminBroadcastMail = async (req, res) => {
         console.error("Error sending email:", error.message);
         return res.status(500).json({ message: "Email sending failed", error: error.message });
     }
-};
-
-module.exports = {
-    adminLogin,
-    adminVerifyOtp,
-    getAdminById,
-    adminBroadcastMail
 };

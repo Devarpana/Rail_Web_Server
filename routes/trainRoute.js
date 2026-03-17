@@ -1,11 +1,11 @@
-const express = require('express');
-const { 
+import express from 'express';
+import { 
       addTrainDetails, 
       getTrainDetails, 
       getAvailableCoaches,
       getActiveChainPulls,
       getChainStatusStats
-} = require('../controller/TrainController');
+} from '../controller/TrainController.js';
   
 const trainRouter = express.Router();
 
@@ -28,4 +28,4 @@ trainRouter.get('/active-chain-pulls', getActiveChainPulls);
 // Get chain status statistics for dashboard
 trainRouter.get('/chain-stats', getChainStatusStats);
 
-module.exports = trainRouter;
+export default trainRouter;

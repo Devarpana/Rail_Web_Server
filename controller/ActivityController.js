@@ -1,9 +1,9 @@
 // controllers/ActivityController.js
-const ActivityLog = require('../models/ActivityLog');
-const userModel = require('../models/User.js'); // For authentication
-const jwt = require('jsonwebtoken'); // For authentication
+import ActivityLog from '../models/ActivityLog.js';
+import userModel from '../models/User.js'; // For authentication
+import jwt from 'jsonwebtoken'; // For authentication
 
-module.exports.getRecentActivities = async (req, res) => {
+export const getRecentActivities = async (req, res) => {
     try {
         // --- Admin Authentication & Authorization (similar to other admin routes) ---
         const authHeader = req.headers.authorization;
@@ -28,12 +28,10 @@ module.exports.getRecentActivities = async (req, res) => {
             .limit(limit); // Limit the number of results
 
         res.status(200).json({ success: true, data: activities });
-
     } catch (error) {
-        if (error.name === "JsonWebTokenError") {
-            return res.status(401).json({ message: "Invalid token. Please log in again." });
-        }
-        console.error("Error fetching recent activities:", error);
-        res.status(500).json({ message: "Failed to fetch recent activities.", error: error.message });
+        console.error('Error fetching activities:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
+
+export default { getRecentActivities };

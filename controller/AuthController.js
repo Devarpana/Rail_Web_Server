@@ -1,11 +1,11 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const userModel = require("../models/User");
-const transporter = require("../config/nodemailer");
-const mongoose = require("mongoose");
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import userModel from "../models/User.js";
+import transporter from "../config/nodemailer.js";
+import mongoose from "mongoose";
 
 // Register
-module.exports.register = async (req, res) => {
+export const register = async (req, res) => {
     const { username, email, phone_number, password, role } = req.body;
 
     if (!username || !email || !phone_number || !password) {
@@ -60,7 +60,7 @@ module.exports.register = async (req, res) => {
 };
 
 // Login
-module.exports.login = async (req, res) => {
+export const login = async (req, res) => {
     const { email, phone_number, password } = req.body;
 
     if (!email && !phone_number || !password) {
@@ -103,9 +103,8 @@ module.exports.login = async (req, res) => {
     }
 };
 
-
 // Forget Password - Generate OTP
-module.exports.forgotPassword = async (req, res) => {
+export const forgotPassword = async (req, res) => {
     const { email } = req.body;
 
     if (!email) {
@@ -144,7 +143,7 @@ module.exports.forgotPassword = async (req, res) => {
 };
 
 // Reset Password
-module.exports.resetPassword = async (req, res) => {
+export const resetPassword = async (req, res) => {
     const { email, otp, newPassword } = req.body;
 
     if (!email || !otp || !newPassword) {
@@ -176,7 +175,7 @@ module.exports.resetPassword = async (req, res) => {
 };
 
 // Logout
-module.exports.logout = (req, res) => {
+export const logout = (req, res) => {
     try {
         res.clearCookie("token", {
             secure: process.env.NODE_ENV === "production",
@@ -190,7 +189,7 @@ module.exports.logout = (req, res) => {
 };
 
 // Verify Email
-module.exports.verifyEmail = async (req, res) => {
+export const verifyEmail = async (req, res) => {
     const { email, otp } = req.body;
 
     if (!email || !otp) {
@@ -222,7 +221,7 @@ module.exports.verifyEmail = async (req, res) => {
 };
 
 // Check if Authenticated
-module.exports.isAuthenticated = (req, res) => {
+export const isAuthenticated = (req, res) => {
     const token = req.cookies.token;
 
     if (!token) {
@@ -245,7 +244,7 @@ module.exports.isAuthenticated = (req, res) => {
 };
 
 // Get User by ID
-module.exports.getUserById = async (req, res) => {
+export const getUserById = async (req, res) => {
     const userId = req.userId; // Assuming `userId` is extracted from middleware like `userAuth`
 
     if (!userId) {

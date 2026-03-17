@@ -1,5 +1,5 @@
-const express = require('express');
-const {
+import express from 'express';
+import {
     register,
     login,
     logout,
@@ -8,10 +8,9 @@ const {
     getUserById,
     isAuthenticated,
     verifyEmail,
-} = require('../controller/AuthController.js');
-
-const userAuth = require('../middleware/UserAuth.js');
-const { adminBroadcastMail } = require('../controller/AdminController.js');
+} from '../controller/AuthController.js';
+import userAuth from '../middleware/UserAuth.js';
+import { adminBroadcastMail } from '../controller/AdminController.js';
 
 const authRouter = express.Router();
 
@@ -28,4 +27,4 @@ authRouter.get('/is-auth', userAuth, isAuthenticated); // Changed to GET (more a
 // Admin: Send email to a specific user or all users
 authRouter.post('/admin/send-mail', adminBroadcastMail); // Manual token verification in controller
 
-module.exports = authRouter;
+export default authRouter;

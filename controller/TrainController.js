@@ -1,9 +1,9 @@
-const Train = require("../models/Train"); // Import Train model
-const Division = require("../models/Division"); // Import Division model
-const User = require("../models/User"); // Import User model
-const transporter = require('../config/nodemailer'); // Import pre-configured nodemailer transporter
-const logActivity = require('../utils/logger'); // <--- ADD THIS LINE (adjust path)
-const jwt = require('jsonwebtoken'); // Needed for decoding token if you want userId for logging
+import Train from "../models/Train.js"; // Import Train model
+import Division from "../models/Division.js"; // Import Division model
+import User from "../models/User.js"; // Import User model
+import transporter from '../config/nodemailer.js'; // Import pre-configured nodemailer transporter
+import logActivity from '../utils/logger.js'; // <--- ADD THIS LINE (adjust path)
+import jwt from 'jsonwebtoken'; // Needed for decoding token if you want userId for logging
 
 // In-memory store to track which alerts have been sent to frontend
 const sentAlerts = new Set();
@@ -39,7 +39,7 @@ const sendChainStatusEmail = async (train) => {
 };
 
 // Add data (Train Details)
-module.exports.addTrainDetails = async (req, res) => {
+export const addTrainDetails = async (req, res) => {
     try {
         const { coach_uid, chain_status, latitude, longitude, temperature, error, memory, humidity, date, time } = req.body;
 
@@ -140,7 +140,7 @@ module.exports.addTrainDetails = async (req, res) => {
 };
 
 // Fetch train details by coach_uid
-module.exports.getTrainDetails = async (req, res) => {
+export const getTrainDetails = async (req, res) => {
     try {
         const { coach_uid } = req.query;
 
@@ -177,7 +177,7 @@ module.exports.getTrainDetails = async (req, res) => {
 };
 
 // Fetch available coach UIDs under the train name or train number
-module.exports.getAvailableCoaches = async (req, res) => {
+export const getAvailableCoaches = async (req, res) => {
     try {
         const { train_Name, train_Number } = req.body;
 
@@ -236,7 +236,7 @@ module.exports.getAvailableCoaches = async (req, res) => {
 };
 
 // Modified function to return only NEW chain pull alerts (one-time process)
-module.exports.getActiveChainPulls = async (req, res) => {
+export const getActiveChainPulls = async (req, res) => {
     try {
         // Get the most recent entry for each coach_uid with pulled status
         const activeAlerts = await Train.aggregate([
@@ -330,7 +330,7 @@ module.exports.getActiveChainPulls = async (req, res) => {
 };
 
 // Optional: Add a function to clear sent alerts (useful for testing or manual reset)
-module.exports.clearSentAlerts = async (req, res) => {
+export const clearSentAlerts = async (req, res) => {
     try {
         sentAlerts.clear();
         await logActivity('Cleared all sent alerts cache.', 'info');
@@ -342,7 +342,7 @@ module.exports.clearSentAlerts = async (req, res) => {
 };
 
 // Get chain status statistics for dashboard
-module.exports.getChainStatusStats = async (req, res) => {
+export const getChainStatusStats = async (req, res) => {
     try {
         const stats = await Train.aggregate([
             {

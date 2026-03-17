@@ -1,9 +1,9 @@
-const userModel= require ("../models/User.js");
-const mongoose = require ("mongoose");
-const jwt  = require ("jsonwebtoken");
+import userModel from "../models/User.js";
+import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 
 // Get user data
-module.exports.getUserData = async (req, res) => {
+export const getUserData = async (req, res) => {
   try {
     // Extract the token from the Authorization header
     const authHeader = req.headers.authorization;

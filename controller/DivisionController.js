@@ -1,11 +1,11 @@
-const Division = require("../models/Division.js");
-const userModel = require("../models/User.js");
-const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
-const logActivity = require('../utils/logger');
+import Division from "../models/Division.js";
+import userModel from "../models/User.js";
+import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
+import logActivity from '../utils/logger.js';
 
 // Add division --admin
-module.exports.addDivision = async (req, res) => {
+export const addDivision = async (req, res) => {
     try {
         // IMMEDIATE DEBUG - Log raw request before any processing
         console.log("=== RAW REQUEST DEBUG ===");
@@ -372,7 +372,7 @@ module.exports.addDivision = async (req, res) => {
 };
 
 // Test endpoint to debug incoming data
-module.exports.testCoachData = async (req, res) => {
+export const testCoachData = async (req, res) => {
     console.log("=== TEST COACH DATA ENDPOINT ===");
     console.log("Method:", req.method);
     console.log("Content-Type:", req.headers['content-type']);
@@ -413,7 +413,7 @@ module.exports.testCoachData = async (req, res) => {
 };
 
 // Modify/Update division --admin
-module.exports.modifyDivision = async (req, res) => {
+export const modifyDivision = async (req, res) => {
     try {
         const authHeader = req.headers.authorization;
 
@@ -577,7 +577,7 @@ module.exports.modifyDivision = async (req, res) => {
 };
 
 // Delete division (which is a train) --admin
-module.exports.deleteDivision = async (req, res) => {
+export const deleteDivision = async (req, res) => {
     try {
         const authHeader = req.headers.authorization;
 
@@ -634,7 +634,7 @@ module.exports.deleteDivision = async (req, res) => {
 };
 
 // Get all divisions
-module.exports.getAllDivisions = async (req, res) => {
+export const getAllDivisions = async (req, res) => {
     try {
         const divisions = await Division.find().sort({ createdAt: -1 });
         await logActivity("Fetched all divisions (trains).", 'info');
@@ -650,7 +650,7 @@ module.exports.getAllDivisions = async (req, res) => {
 };
 
 // Get recently added divisions
-module.exports.getRecentlyAddedDivisions = async (req, res) => {
+export const getRecentlyAddedDivisions = async (req, res) => {
     try {
         const divisions = await Division.find().sort({ createdAt: -1 }).limit(4);
         await logActivity("Fetched recently added divisions (trains).", 'info');
@@ -666,7 +666,7 @@ module.exports.getRecentlyAddedDivisions = async (req, res) => {
 };
 
 // Get Division by ID
-module.exports.getDivisionById = async (req, res) => {
+export const getDivisionById = async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -698,7 +698,7 @@ module.exports.getDivisionById = async (req, res) => {
 };
 
 // Add coach to existing division --admin
-module.exports.addCoachToDivision = async (req, res) => {
+export const addCoachToDivision = async (req, res) => {
     try {
         const authHeader = req.headers.authorization;
 
@@ -803,7 +803,7 @@ module.exports.addCoachToDivision = async (req, res) => {
 };
 
 // Remove coach from division --admin
-module.exports.removeCoachFromDivision = async (req, res) => {
+export const removeCoachFromDivision = async (req, res) => {
     try {
         const authHeader = req.headers.authorization;
 

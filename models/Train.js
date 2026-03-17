@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const trainSchema = new mongoose.Schema({
     coach_uid: {
@@ -117,4 +117,4 @@ trainSchema.methods.populateCoachDetails = function() {
     });
 };
 
-module.exports = mongoose.model("Train", trainSchema);
+export default mongoose.model("Train", trainSchema);

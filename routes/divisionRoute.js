@@ -1,7 +1,6 @@
-const express = require("express");
-
-const userAuth = require('../middleware/UserAuth.js');
-const { 
+import express from "express";
+import userAuth from '../middleware/UserAuth.js';
+import { 
     addDivision, 
     modifyDivision,
     deleteDivision, 
@@ -10,7 +9,7 @@ const {
     getDivisionById,
     addCoachToDivision,
     removeCoachFromDivision
-} = require("../controller/DivisionController.js");
+} from "../controller/DivisionController.js";
 
 const divisionRouter = express.Router();
 
@@ -26,4 +25,4 @@ divisionRouter.get('/division-id/:id', getDivisionById); // get division by id
 divisionRouter.post('/division/:id/add-coach', userAuth, addCoachToDivision); // add coach to division
 divisionRouter.delete('/division/:id/remove-coach/:uid', userAuth, removeCoachFromDivision); // remove coach from division
 
-module.exports = divisionRouter;
+export default divisionRouter;

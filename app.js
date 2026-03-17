@@ -1,11 +1,25 @@
 // app.js
-const express = require('express');
+import express from 'express';
+import 'dotenv/config';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import './conn/conn.js';
+import authRoute from './routes/authRoute.js';
+import userRoute from './routes/userRoute.js';
+import divisionRoute from './routes/divisionRoute.js';
+import trainRoute from './routes/trainRoute.js';
+import activityRoute from './routes/activityRoutes.js';
+
 const app = express();
 
-// ✅ Load environment variables first
-require("dotenv").config();
+// Set up routes
+const auth = authRoute;
+const user = userRoute;
+const divisionRouter = divisionRoute;
+const trainRouter = trainRoute;
+const activityRouter = activityRoute;
 
-const cors = require("cors");
+console.log("✅ All routes loaded successfully");
 
 // ✅ Robust database connection with retries
 const connectDB = async () => {
@@ -15,7 +29,10 @@ const connectDB = async () => {
  while (retryCount < maxRetries) {
   try {
    console.log(`🔄 Attempting database connection (attempt ${retryCount + 1}/${maxRetries})`);
-   await require("./conn/conn");
+   if (mongoose.connection.readyState === 1) {
+    console.log("✅ Database connected successfully");
+    return;
+   }
    console.log("✅ Database connected successfully");
    return;
   } catch (error) {
@@ -32,20 +49,6 @@ const connectDB = async () => {
   }
  }
 };
-
-// Import routes with error handling
-let auth, user, divisionRouter, trainRouter, activityRouter;
-try {
- auth = require("./routes/authRoute.js");
- user = require("./routes/userRoute.js");
- divisionRouter = require('./routes/divisionRoute.js');
- trainRouter = require('./routes/trainRoute.js');
- activityRouter = require('./routes/activityRoutes.js'); // <--- Already here
- console.log("✅ All routes loaded successfully");
-} catch (error) {
- console.error("❌ Route loading failed:", error.message);
- process.exit(1);
-}
 
 // ✅ CORS Configuration
 const corsOptions = {
@@ -72,7 +75,6 @@ app.use((req, res, next) => {
 // ✅ Enhanced health check with database test
 app.get("/health", async (req, res) => {
  try {
-  const mongoose = require('mongoose');
   const dbStatus = mongoose.connection.readyState === 1 ? "connected" : "disconnected";
 
   const healthInfo = {

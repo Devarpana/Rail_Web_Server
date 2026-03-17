@@ -1,5 +1,5 @@
 // utils/logger.js
-const ActivityLog = require('../models/ActivityLog'); // Adjust path as needed
+import ActivityLog from '../models/ActivityLog.js'; // Adjust path as needed
 
 /**
  * Logs an activity to the database.
@@ -24,4 +24,4 @@ const logActivity = async (message, type = 'info', userId = null) => {
     }
 };
 
-module.exports = logActivity;
+export default logActivity;
